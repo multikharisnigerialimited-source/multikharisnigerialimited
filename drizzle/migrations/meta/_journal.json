@@ -8,6 +8,13 @@
       "when": 1794576578538,
       "tag": "0000_registration_system",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1794679027359,
+      "tag": "0001_payments_and_course_fees",
+      "breakpoints": true
     }
   ]
 }

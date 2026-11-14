@@ -56,10 +56,86 @@ export type Database = {
         }
         Relationships: []
       }
+      course_fees: {
+        Row: {
+          amount: number
+          course: string
+          updated_at: string
+        }
+        Insert: {
+          amount?: number
+          course: string
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          course?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      payments: {
+        Row: {
+          amount: number
+          card_bank: string | null
+          card_brand: string | null
+          card_last4: string | null
+          channel: string | null
+          created_at: string
+          gateway_response: string | null
+          id: string
+          paid_at: string | null
+          reference: string
+          registration_id: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          amount: number
+          card_bank?: string | null
+          card_brand?: string | null
+          card_last4?: string | null
+          channel?: string | null
+          created_at?: string
+          gateway_response?: string | null
+          id?: string
+          paid_at?: string | null
+          reference: string
+          registration_id: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          card_bank?: string | null
+          card_brand?: string | null
+          card_last4?: string | null
+          channel?: string | null
+          created_at?: string
+          gateway_response?: string | null
+          id?: string
+          paid_at?: string | null
+          reference?: string
+          registration_id?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_registration_id_fkey"
+            columns: ["registration_id"]
+            isOneToOne: false
+            referencedRelation: "registrations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       registrations: {
         Row: {
           address: string
           agreed_terms: boolean
+          amount_due: number
+          amount_paid: number
           callup_number: string | null
           category: Database["public"]["Enums"]["participant_category"]
           courses: string[]
@@ -74,6 +150,8 @@ export type Database = {
           level_of_study: string | null
           matric_number: string | null
           other_names: string | null
+          paid_at: string | null
+          payment_status: Database["public"]["Enums"]["payment_status"]
           phone: string
           photo_path: string
           ppa: string | null
@@ -90,6 +168,8 @@ export type Database = {
         Insert: {
           address: string
           agreed_terms?: boolean
+          amount_due?: number
+          amount_paid?: number
           callup_number?: string | null
           category: Database["public"]["Enums"]["participant_category"]
           courses: string[]
@@ -104,6 +184,8 @@ export type Database = {
           level_of_study?: string | null
           matric_number?: string | null
           other_names?: string | null
+          paid_at?: string | null
+          payment_status?: Database["public"]["Enums"]["payment_status"]
           phone: string
           photo_path: string
           ppa?: string | null
@@ -120,6 +202,8 @@ export type Database = {
         Update: {
           address?: string
           agreed_terms?: boolean
+          amount_due?: number
+          amount_paid?: number
           callup_number?: string | null
           category?: Database["public"]["Enums"]["participant_category"]
           courses?: string[]
@@ -134,6 +218,8 @@ export type Database = {
           level_of_study?: string | null
           matric_number?: string | null
           other_names?: string | null
+          paid_at?: string | null
+          payment_status?: Database["public"]["Enums"]["payment_status"]
           phone?: string
           photo_path?: string
           ppa?: string | null
@@ -186,6 +272,7 @@ export type Database = {
     Enums: {
       app_role: "admin"
       participant_category: "nysc" | "student"
+      payment_status: "unpaid" | "paid"
       registration_status: "pending" | "approved" | "rejected"
     }
     CompositeTypes: {
@@ -316,6 +403,7 @@ export const Constants = {
     Enums: {
       app_role: ["admin"],
       participant_category: ["nysc", "student"],
+      payment_status: ["unpaid", "paid"],
       registration_status: ["pending", "approved", "rejected"],
     },
   },

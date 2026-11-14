@@ -10,4 +10,6 @@ export const SITE = {
   mapEmbed:
     "https://www.google.com/maps?q=College+of+Education+Warri+Delta+State+Nigeria&output=embed",
   mapLink: "https://maps.google.com/?q=College+of+Education+Warri+Delta+State+Nigeria",
+  /** Account that receives every card payment (configured as the settlement account in Paystack). */
+  payout: { accountName: "MULTIKHARIS", accountNumber: "2032300125", bank: "First Bank" },
 } as const;
