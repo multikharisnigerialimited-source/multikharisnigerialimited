@@ -1,14 +1,13 @@
 import { z } from "zod";
 
 export const SKILLS = [
-  "Computer Basics and Appreciation",
+  "Computer Appreciation (Microsoft Office)",
   "Data Analysis",
   "Web Design",
   "AI Automation",
   "Social Media Marketing",
   "Product (UI/UX) Design",
   "Graphic Design",
-  "Cybersecurity",
   "Digital Marketing",
 ] as const;
 export type Skill = (typeof SKILLS)[number];

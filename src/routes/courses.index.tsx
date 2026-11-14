@@ -12,7 +12,7 @@ export const Route = createFileRoute("/courses/")({
       {
         name: "description",
         content:
-          "Web Development, Graphic Design, Data Analysis, UI/UX Design, Digital Marketing and Cybersecurity training in Warri and online.",
+          "Web Development, Graphic Design, Data Analysis, UI/UX Design, Digital Marketing and Computer Appreciation (Microsoft Office) training in Warri and online.",
       },
       { property: "og:title", content: "Digital Skills Courses — Multikharis Nigeria Limited" },
       {

@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, CheckCircle2, Clock, Monitor, Award } from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle2, Monitor, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getCourse, COURSES } from "@/lib/courses";
 import { useSelection } from "@/lib/selection";
@@ -51,7 +51,6 @@ function CourseDetail() {
             <p className="mt-4 text-lg text-muted-foreground">{course.description}</p>
             <div className="mt-6 flex flex-wrap gap-3">
               {[
-                { icon: Clock, t: course.duration ?? "Flexible duration" },
                 { icon: Monitor, t: "Online or Physical" },
                 { icon: Award, t: "Certificate" },
               ].map(({ icon: Icon, t }) => (
@@ -105,10 +104,6 @@ function CourseDetail() {
               ))}
             </div>
             <dl className="mt-6 space-y-3 text-sm">
-              <div className="flex justify-between">
-                <dt className="text-muted-foreground">Duration</dt>
-                <dd className="font-semibold text-navy">{course.duration ?? "Flexible"}</dd>
-              </div>
               <div className="flex justify-between">
                 <dt className="text-muted-foreground">Mode</dt>
                 <dd className="font-semibold text-navy">Online / Physical</dd>

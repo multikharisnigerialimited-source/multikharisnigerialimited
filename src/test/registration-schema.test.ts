@@ -48,7 +48,11 @@ describe("registration rules", () => {
 
   it("requires at least one course and allows multiple", () => {
     expect(trainingSchema.safeParse({ ...training, courses: [] }).success).toBe(false);
-    expect(trainingSchema.safeParse({ ...training, courses: ["Web Design", "Data Analysis", "Cybersecurity"] }).success).toBe(true);
+    expect(trainingSchema.safeParse({ ...training, courses: ["Web Design", "Data Analysis", "Computer Appreciation (Microsoft Office)"] }).success).toBe(true);
+  });
+
+  it("no longer offers Cybersecurity", () => {
+    expect(trainingSchema.safeParse({ ...training, courses: ["Cybersecurity"] }).success).toBe(false);
   });
 
   it("requires a training location only for physical training", () => {

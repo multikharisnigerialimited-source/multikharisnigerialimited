@@ -3,14 +3,13 @@ import graphic from "@/assets/course-graphic.jpg";
 import data from "@/assets/course-data.jpg";
 import uiux from "@/assets/course-uiux.jpg";
 import marketing from "@/assets/course-marketing.jpg";
-import cyber from "@/assets/course-cyber.jpg";
+import computer from "@/assets/course-computer.jpg";
 import type { Skill } from "./registration-schema";
 
 export type Course = {
   slug: string;
   name: string;
   description: string;
-  duration?: string;
   image: string;
   skill: Skill;
   overview: string;
@@ -23,7 +22,6 @@ export const COURSES: Course[] = [
     slug: "web-development",
     name: "Web Development",
     description: "Build modern websites with HTML, CSS and JavaScript.",
-    duration: "8 Weeks",
     image: web,
     skill: "Web Design",
     overview:
@@ -42,7 +40,6 @@ export const COURSES: Course[] = [
     slug: "graphic-design",
     name: "Graphic Design",
     description: "Create stunning designs using Photoshop and Canva.",
-    duration: "6 Weeks",
     image: graphic,
     skill: "Graphic Design",
     overview:
@@ -61,7 +58,6 @@ export const COURSES: Course[] = [
     slug: "data-analysis",
     name: "Data Analysis",
     description: "Turn data into insights using Excel and Power BI.",
-    duration: "6 Weeks",
     image: data,
     skill: "Data Analysis",
     overview:
@@ -80,7 +76,6 @@ export const COURSES: Course[] = [
     slug: "product-design",
     name: "Product (UI/UX) Design",
     description: "Design amazing digital products.",
-    duration: "8 Weeks",
     image: uiux,
     skill: "Product (UI/UX) Design",
     overview:
@@ -114,22 +109,22 @@ export const COURSES: Course[] = [
     tools: ["Meta Ads", "Google Analytics", "Canva"],
   },
   {
-    slug: "cybersecurity",
-    name: "Cybersecurity",
-    description: "Learn the fundamentals of digital security.",
-    image: cyber,
-    skill: "Cybersecurity",
+    slug: "computer-appreciation",
+    name: "Computer Appreciation (Microsoft Office)",
+    description: "Master computer basics, Word, Excel and PowerPoint.",
+    image: computer,
+    skill: "Computer Appreciation (Microsoft Office)",
     overview:
-      "Understand how cyber attacks happen and how to protect people, devices and organisations. A strong foundation for a career in security.",
+      "Build confidence with computers from the ground up. Learn to use Windows, type documents in Word, work with spreadsheets in Excel and present ideas in PowerPoint — essential skills for any office or business.",
     topics: [
-      "Security fundamentals",
-      "Common threats and attacks",
-      "Password and account security",
-      "Network security basics",
-      "Safe browsing and phishing awareness",
-      "Introduction to security careers",
+      "Computer basics and Windows",
+      "Typing and file management",
+      "Microsoft Word documents",
+      "Microsoft Excel spreadsheets",
+      "Microsoft PowerPoint presentations",
+      "Internet and email essentials",
     ],
-    tools: ["Security tools overview"],
+    tools: ["Windows", "Microsoft Word", "Microsoft Excel", "Microsoft PowerPoint"],
   },
 ];
 

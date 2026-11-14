@@ -5,3 +5,6 @@
 - [x] Admin login + dashboard (search, filters, stats, status, CSV/Excel export, print)
 - [ ] Registration confirmation email to applicant + admin notification email — blocked: needs an email sender domain set up
 - [ ] Real social media profile links in footer — blocked: needs the company's Facebook/X/LinkedIn/YouTube URLs
+- [x] Remove course durations; replace Cybersecurity with Computer Appreciation (Microsoft Office)
+- [ ] Card payment at registration, paid out to MULTIKHARIS · First Bank · 2032300125 — waiting on: course fees + payment provider account (Paystack)
+- [ ] Admin payment tracker — built together with card payment
