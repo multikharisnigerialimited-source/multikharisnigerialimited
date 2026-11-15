@@ -53,6 +53,13 @@ export const submitRegistration = createServerFn({ method: "POST" })
     }
 
     const { personal: p, category: c, training: t } = data;
+    const { feeForCourses } = await import("./paystack.server");
+    let amountDue = 0;
+    try {
+      amountDue = await feeForCourses(supabaseAdmin, t.courses);
+    } catch (e) {
+      console.error("fee lookup failed", e);
+    }
     const { data: row, error } = await supabaseAdmin
       .from("registrations")
       .insert({
@@ -79,6 +86,7 @@ export const submitRegistration = createServerFn({ method: "POST" })
         training_schedule: t.training_schedule,
         training_location: t.training_mode === "Physical" ? t.training_location || null : null,
         agreed_terms: true,
+        amount_due: amountDue,
       })
       .select("id, reference")
       .single();
@@ -91,5 +99,5 @@ export const submitRegistration = createServerFn({ method: "POST" })
 
     // Confirmation + admin notification emails are sent here once an email domain is configured.
 
-    return { reference: row.reference };
+    return { reference: row.reference, amountDue };
   });

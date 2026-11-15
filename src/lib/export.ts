@@ -1,5 +1,6 @@
 import type { Registration } from "./admin-data";
 import { categoryLabel } from "./admin-data";
+import { formatNaira } from "./money";
 
 const COLUMNS: [string, (r: Registration) => string][] = [
   ["Reference", (r) => r.reference],
@@ -26,6 +27,10 @@ const COLUMNS: [string, (r: Registration) => string][] = [
   ["Training Mode", (r) => r.training_mode],
   ["Training Schedule", (r) => r.training_schedule],
   ["Training Location", (r) => r.training_location ?? ""],
+  ["Payment Status", (r) => (r.payment_status === "paid" ? "Paid" : "Unpaid")],
+  ["Fee", (r) => (r.amount_due ? formatNaira(r.amount_due) : "")],
+  ["Amount Paid", (r) => formatNaira(r.amount_paid)],
+  ["Date Paid", (r) => (r.paid_at ? new Date(r.paid_at).toLocaleString("en-NG") : "")],
 ];
 
 function csvCell(v: string) {

@@ -6,6 +6,8 @@ import { toast } from "sonner";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { StatusBadge } from "@/components/admin/StatusBadge";
 import { StatusSelect } from "@/components/admin/StatusSelect";
+import { PaymentBadge } from "@/components/admin/PaymentBadge";
+import { PaymentTracker } from "@/components/admin/PaymentTracker";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -88,8 +90,9 @@ function Dashboard() {
       </div>
 
       <Tabs defaultValue="applicants">
-        <TabsList className="h-11 rounded-xl">
+        <TabsList className="h-auto flex-wrap justify-start rounded-xl">
           <TabsTrigger value="applicants" className="rounded-lg px-4">Applicants</TabsTrigger>
+          <TabsTrigger value="payments" className="rounded-lg px-4">Payments</TabsTrigger>
           <TabsTrigger value="stats" className="rounded-lg px-4">Course Statistics</TabsTrigger>
           <TabsTrigger value="messages" className="rounded-lg px-4">Messages</TabsTrigger>
         </TabsList>
@@ -141,6 +144,7 @@ function Dashboard() {
                       <th className="px-4 py-3">Category</th>
                       <th className="px-4 py-3">Courses</th>
                       <th className="px-4 py-3">Date</th>
+                      <th className="px-4 py-3">Payment</th>
                       <th className="px-4 py-3">Status</th>
                       <th className="px-4 py-3" />
                     </tr>
@@ -161,6 +165,7 @@ function Dashboard() {
                         <td className="px-4 py-3 text-xs">{categoryLabel(r.category)}</td>
                         <td className="max-w-[220px] px-4 py-3 text-xs text-muted-foreground">{r.courses.join(", ")}</td>
                         <td className="px-4 py-3 text-xs text-muted-foreground">{new Date(r.created_at).toLocaleDateString("en-NG")}</td>
+                        <td className="px-4 py-3"><PaymentBadge paid={r.payment_status === "paid"} /></td>
                         <td className="px-4 py-3"><StatusSelect reg={r} /></td>
                         <td className="px-4 py-3">
                           <Button asChild variant="ghost" size="sm">
@@ -180,6 +185,10 @@ function Dashboard() {
               </div>
             </>
           )}
+        </TabsContent>
+
+        <TabsContent value="payments" className="mt-4">
+          <PaymentTracker regs={regs} />
         </TabsContent>
 
         <TabsContent value="stats" className="mt-4">
@@ -252,7 +261,10 @@ function ApplicantCard({ r, photo }: { r: Registration; photo?: string | undefin
           <p className="truncate font-semibold text-navy">{fullName(r)}</p>
           <p className="font-mono text-xs text-muted-foreground">{r.reference}</p>
         </div>
-        <StatusBadge status={r.status} />
+        <div className="flex flex-col items-end gap-1">
+          <StatusBadge status={r.status} />
+          <PaymentBadge paid={r.payment_status === "paid"} />
+        </div>
       </div>
       <p className="mt-3 text-xs text-muted-foreground">
         {categoryLabel(r.category)} • {r.courses.join(", ")}

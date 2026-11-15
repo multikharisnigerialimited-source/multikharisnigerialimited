@@ -1,4 +1,8 @@
 import { Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import { CreditCard } from "lucide-react";
+import { courseFeesQuery } from "@/lib/fees";
+import { formatNaira, totalFee } from "@/lib/money";
 import { Pencil } from "lucide-react";
 import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
@@ -40,6 +44,8 @@ export function StepReview({
   errors: Errors;
 }) {
   const { personal: p, category: c, training: t } = form;
+  const { data: fees = {} } = useQuery(courseFeesQuery);
+  const fee = totalFee(t.courses, fees);
   return (
     <div className="space-y-4">
       <Section title="Personal Information" onEdit={() => goTo(1)}>
@@ -98,6 +104,15 @@ export function StepReview({
           <Row label="Training Schedule" value={t.training_schedule} />
         </dl>
       </Section>
+
+      {fee > 0 && (
+        <div className="flex items-center justify-between gap-3 rounded-2xl border border-primary/30 bg-primary/5 p-4">
+          <span className="flex items-center gap-2 text-sm font-semibold text-navy">
+            <CreditCard className="h-5 w-5 text-primary" /> Training fee (pay by card after submitting)
+          </span>
+          <span className="font-display text-lg font-extrabold text-primary">{formatNaira(fee)}</span>
+        </div>
+      )}
 
       <label
         className={cn(

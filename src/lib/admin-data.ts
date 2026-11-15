@@ -84,3 +84,52 @@ export const fullName = (r: Pick<Registration, "surname" | "first_name" | "other
   [r.surname, r.first_name, r.other_names].filter(Boolean).join(" ");
 
 export const categoryLabel = (c: Registration["category"]) => (c === "nysc" ? "NYSC Corps Member" : "Student");
+
+export type Payment = Database["public"]["Tables"]["payments"]["Row"] & {
+  registrations: Pick<Registration, "reference" | "surname" | "first_name"> | null;
+};
+
+export const paymentsQuery = queryOptions({
+  queryKey: ["payments"],
+  queryFn: async () => {
+    const { data, error } = await supabase
+      .from("payments")
+      .select("*, registrations(reference, surname, first_name)")
+      .order("created_at", { ascending: false })
+      .limit(1000);
+    if (error) throw error;
+    return (data ?? []) as Payment[];
+  },
+});
+
+export const registrationPaymentsQuery = (registrationId: string) =>
+  queryOptions({
+    queryKey: ["payments", registrationId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("payments")
+        .select("*")
+        .eq("registration_id", registrationId)
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+
+/** Manually mark a registration paid (e.g. cash or transfer at the office) or unpaid. */
+export async function setPaymentStatus(r: Pick<Registration, "id">, paid: boolean, amount: number) {
+  const { error } = await supabase
+    .from("registrations")
+    .update(
+      paid
+        ? { payment_status: "paid", amount_paid: amount, amount_due: amount, paid_at: new Date().toISOString() }
+        : { payment_status: "unpaid", amount_paid: 0, paid_at: null },
+    )
+    .eq("id", r.id);
+  if (error) throw error;
+}
+
+export async function saveCourseFees(fees: { course: string; amount: number }[]) {
+  const { error } = await supabase.from("course_fees").upsert(fees, { onConflict: "course" });
+  if (error) throw error;
+}

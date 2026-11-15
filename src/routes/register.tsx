@@ -66,6 +66,7 @@ function RegisterPage() {
   const [errors, setErrors] = useState<Errors>({});
   const [submitting, setSubmitting] = useState(false);
   const [reference, setReference] = useState<string | null>(null);
+  const [amountDue, setAmountDue] = useState(0);
   const [reviewMode, setReviewMode] = useState(false);
   const topRef = useRef<HTMLDivElement>(null);
   const seeded = useRef(false);
@@ -156,6 +157,7 @@ function RegisterPage() {
     try {
       const res = await submit({ data: check.data });
       setReference(res.reference);
+      setAmountDue(res.amountDue);
       clear();
       setStep(5);
     } catch (e) {
@@ -199,7 +201,7 @@ function RegisterPage() {
                 }}
               />
             )}
-            {step === 5 && reference && <StepSuccess reference={reference} email={form.personal.email} />}
+            {step === 5 && reference && <StepSuccess reference={reference} email={form.personal.email} amountDue={amountDue} />}
           </div>
 
           {step < 5 && (

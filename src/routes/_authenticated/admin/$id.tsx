@@ -6,7 +6,9 @@ import { AdminShell } from "@/components/admin/AdminShell";
 import { StatusBadge } from "@/components/admin/StatusBadge";
 import { StatusSelect } from "@/components/admin/StatusSelect";
 import { Button } from "@/components/ui/button";
-import { categoryLabel, fullName, photoUrlsQuery, registrationQuery } from "@/lib/admin-data";
+import { categoryLabel, fullName, photoUrlsQuery, registrationPaymentsQuery, registrationQuery } from "@/lib/admin-data";
+import { PaymentBadge } from "@/components/admin/PaymentBadge";
+import { formatNaira } from "@/lib/money";
 import { exportCsv } from "@/lib/export";
 import { LogoMark } from "@/components/site/Logo";
 
@@ -31,6 +33,7 @@ function Detail() {
   const { id } = Route.useParams();
   const { data: r, isLoading } = useQuery(registrationQuery(id));
   const { data: photos = {} } = useQuery(photoUrlsQuery(r ? [r.photo_path] : []));
+  const { data: txs = [] } = useQuery(registrationPaymentsQuery(id));
 
   if (isLoading) return <div className="flex justify-center py-24"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>;
   if (!r)
@@ -126,6 +129,22 @@ function Detail() {
               {r.training_location && <Row l="Location" v={r.training_location} />}
               <Row l="Schedule" v={r.training_schedule} />
               <Row l="Agreed to terms" v={r.agreed_terms ? "Yes" : "No"} />
+            </Block>
+            <Block title="Payment">
+              <div className="flex justify-between gap-4 border-b border-border/60 py-2.5 text-sm">
+                <dt className="text-muted-foreground">Status</dt>
+                <dd><PaymentBadge paid={r.payment_status === "paid"} /></dd>
+              </div>
+              <Row l="Fee" v={r.amount_due ? formatNaira(r.amount_due) : null} />
+              <Row l="Amount Paid" v={formatNaira(r.amount_paid)} />
+              <Row l="Date Paid" v={r.paid_at ? new Date(r.paid_at).toLocaleString("en-NG") : null} />
+              {txs.map((t) => (
+                <Row
+                  key={t.id}
+                  l={`Card attempt · ${new Date(t.created_at).toLocaleDateString("en-NG")}`}
+                  v={`${formatNaira(t.amount)} · ${t.status}${t.card_last4 ? ` · •••• ${t.card_last4}` : ""}`}
+                />
+              ))}
             </Block>
           </div>
         </div>

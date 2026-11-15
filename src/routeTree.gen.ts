@@ -14,10 +14,12 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as PayRouteImport } from './routes/pay'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as CoursesIndexRouteImport } from './routes/courses.index'
 import { Route as CoursesSlugRouteImport } from './routes/courses.$slug'
+import { Route as PaymentCallbackRouteImport } from './routes/payment.callback'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
 import { Route as AuthenticatedAdminIdRouteImport } from './routes/_authenticated/admin/$id'
 import { Route as ApiPublicPaystackWebhookRouteImport } from './routes/api/public/paystack-webhook'
@@ -46,6 +48,11 @@ const ContactRoute = ContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PayRoute = PayRouteImport.update({
+  id: '/pay',
+  path: '/pay',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
   path: '/register',
@@ -64,6 +71,11 @@ const CoursesIndexRoute = CoursesIndexRouteImport.update({
 const CoursesSlugRoute = CoursesSlugRouteImport.update({
   id: '/courses/$slug',
   path: '/courses/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PaymentCallbackRoute = PaymentCallbackRouteImport.update({
+  id: '/payment/callback',
+  path: '/payment/callback',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
@@ -88,9 +100,11 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
+  '/pay': typeof PayRoute
   '/register': typeof RegisterRoute
   '/terms': typeof TermsRoute
   '/courses/$slug': typeof CoursesSlugRoute
+  '/payment/callback': typeof PaymentCallbackRoute
   '/courses/': typeof CoursesIndexRoute
   '/admin/$id': typeof AuthenticatedAdminIdRoute
   '/api/public/paystack-webhook': typeof ApiPublicPaystackWebhookRoute
@@ -101,9 +115,11 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
+  '/pay': typeof PayRoute
   '/register': typeof RegisterRoute
   '/terms': typeof TermsRoute
   '/courses/$slug': typeof CoursesSlugRoute
+  '/payment/callback': typeof PaymentCallbackRoute
   '/courses': typeof CoursesIndexRoute
   '/admin/$id': typeof AuthenticatedAdminIdRoute
   '/api/public/paystack-webhook': typeof ApiPublicPaystackWebhookRoute
@@ -116,9 +132,11 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
+  '/pay': typeof PayRoute
   '/register': typeof RegisterRoute
   '/terms': typeof TermsRoute
   '/courses/$slug': typeof CoursesSlugRoute
+  '/payment/callback': typeof PaymentCallbackRoute
   '/courses/': typeof CoursesIndexRoute
   '/_authenticated/admin/$id': typeof AuthenticatedAdminIdRoute
   '/api/public/paystack-webhook': typeof ApiPublicPaystackWebhookRoute
@@ -131,9 +149,11 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/contact'
+    | '/pay'
     | '/register'
     | '/terms'
     | '/courses/$slug'
+    | '/payment/callback'
     | '/courses/'
     | '/admin/$id'
     | '/api/public/paystack-webhook'
@@ -144,9 +164,11 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/contact'
+    | '/pay'
     | '/register'
     | '/terms'
     | '/courses/$slug'
+    | '/payment/callback'
     | '/courses'
     | '/admin/$id'
     | '/api/public/paystack-webhook'
@@ -158,9 +180,11 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/contact'
+    | '/pay'
     | '/register'
     | '/terms'
     | '/courses/$slug'
+    | '/payment/callback'
     | '/courses/'
     | '/_authenticated/admin/$id'
     | '/api/public/paystack-webhook'
@@ -173,9 +197,11 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
+  PayRoute: typeof PayRoute
   RegisterRoute: typeof RegisterRoute
   TermsRoute: typeof TermsRoute
   CoursesSlugRoute: typeof CoursesSlugRoute
+  PaymentCallbackRoute: typeof PaymentCallbackRoute
   CoursesIndexRoute: typeof CoursesIndexRoute
   ApiPublicPaystackWebhookRoute: typeof ApiPublicPaystackWebhookRoute
 }
@@ -217,6 +243,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pay': {
+      id: '/pay'
+      path: '/pay'
+      fullPath: '/pay'
+      preLoaderRoute: typeof PayRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/register': {
       id: '/register'
       path: '/register'
@@ -243,6 +276,13 @@ declare module '@tanstack/react-router' {
       path: '/courses/$slug'
       fullPath: '/courses/$slug'
       preLoaderRoute: typeof CoursesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/payment/callback': {
+      id: '/payment/callback'
+      path: '/payment/callback'
+      fullPath: '/payment/callback'
+      preLoaderRoute: typeof PaymentCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin/': {
@@ -288,9 +328,11 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
+  PayRoute: PayRoute,
   RegisterRoute: RegisterRoute,
   TermsRoute: TermsRoute,
   CoursesSlugRoute: CoursesSlugRoute,
+  PaymentCallbackRoute: PaymentCallbackRoute,
   CoursesIndexRoute: CoursesIndexRoute,
   ApiPublicPaystackWebhookRoute: ApiPublicPaystackWebhookRoute,
 }

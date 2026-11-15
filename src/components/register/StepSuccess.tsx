@@ -2,8 +2,9 @@ import { Link } from "@tanstack/react-router";
 import { Check, Copy, Home } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { PayCard } from "@/components/payment/PayCard";
 
-export function StepSuccess({ reference, email }: { reference: string; email: string }) {
+export function StepSuccess({ reference, email, amountDue }: { reference: string; email: string; amountDue: number }) {
   return (
     <div className="flex flex-col items-center py-4 text-center">
       <div className="relative">
@@ -35,7 +36,8 @@ export function StepSuccess({ reference, email }: { reference: string; email: st
       <p className="mt-4 max-w-sm text-xs text-muted-foreground">
         Please save this number. Confirmation will be sent to <strong className="text-navy">{email}</strong>.
       </p>
-      <Button asChild size="xl" className="mt-8">
+      <PayCard reference={reference} email={email} amountDue={amountDue} className="mt-8" />
+      <Button asChild size="xl" variant={amountDue > 0 ? "subtle" : "default"} className="mt-6">
         <Link to="/">
           <Home /> BACK TO HOME
         </Link>
