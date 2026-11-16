@@ -15,6 +15,13 @@
       "when": 1794679027359,
       "tag": "0001_payments_and_course_fees",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1794846093872,
+      "tag": "0002_receipts_and_reference_edit",
+      "breakpoints": true
     }
   ]
 }

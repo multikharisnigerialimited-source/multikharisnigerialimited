@@ -122,12 +122,29 @@ export const photoSchema = z.object({
   }),
 });
 
+export const receiptSchema = z.object({
+  data: z.string().min(100, "Upload a screenshot of your payment receipt").max(6_000_000, "Receipt image is too large"),
+  type: z.enum(["image/jpeg", "image/png", "image/webp"], {
+    errorMap: () => ({ message: "Receipt must be a JPG, PNG or WEBP image" }),
+  }),
+});
+
+export const paymentSchema = z.discriminatedUnion(
+  "method",
+  [
+    z.object({ method: z.literal("card") }),
+    z.object({ method: z.literal("transfer"), receipt: receiptSchema }),
+  ],
+  { errorMap: () => ({ message: "Choose how you will pay: card or bank transfer with receipt" }) },
+);
+
 export const submissionSchema = z
   .object({
     personal: personalSchema,
     category: categorySchema,
     training: trainingSchema,
     photo: photoSchema,
+    payment: paymentSchema,
     agreed_terms: z.literal(true, {
       errorMap: () => ({ message: "You must agree to the terms and conditions" }),
     }),
@@ -138,6 +155,7 @@ export const submissionSchema = z
 export type PersonalInput = z.input<typeof personalSchema>;
 export type CategoryInput = z.input<typeof categorySchema>;
 export type TrainingInput = z.input<typeof trainingSchema>;
+export type PaymentInput = z.input<typeof paymentSchema>;
 export type SubmissionInput = z.input<typeof submissionSchema>;
 
 export function normalizePhone(v: string) {

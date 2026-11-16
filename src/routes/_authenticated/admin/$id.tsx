@@ -8,6 +8,7 @@ import { StatusSelect } from "@/components/admin/StatusSelect";
 import { Button } from "@/components/ui/button";
 import { categoryLabel, fullName, photoUrlsQuery, registrationPaymentsQuery, registrationQuery } from "@/lib/admin-data";
 import { PaymentBadge } from "@/components/admin/PaymentBadge";
+import { DeleteCandidateButton, EditableReference, ReceiptPanel } from "@/components/admin/CandidateActions";
 import { formatNaira } from "@/lib/money";
 import { exportCsv } from "@/lib/export";
 import { LogoMark } from "@/components/site/Logo";
@@ -59,6 +60,7 @@ function Detail() {
           )}
           <Button variant="subtle" size="sm" onClick={() => exportCsv([r], `${r.reference}.csv`)}><Download /> Download</Button>
           <Button variant="navy" size="sm" onClick={() => window.print()}><Printer /> Print</Button>
+          <DeleteCandidateButton r={r} />
         </div>
       </div>
 
@@ -84,7 +86,7 @@ function Detail() {
           </div>
           <div className="flex-1">
             <h1 className="text-2xl font-extrabold text-navy">{fullName(r)}</h1>
-            <p className="mt-1 font-mono text-sm font-bold text-primary">{r.reference}</p>
+            <EditableReference key={r.reference} r={r} />
             <p className="mt-1 text-xs text-muted-foreground">Submitted {new Date(r.created_at).toLocaleString("en-NG")}</p>
             <div className="mt-4 flex flex-wrap gap-2">
               {r.courses.map((c) => (
@@ -135,6 +137,7 @@ function Detail() {
                 <dt className="text-muted-foreground">Status</dt>
                 <dd><PaymentBadge paid={r.payment_status === "paid"} /></dd>
               </div>
+              <Row l="Method" v={r.payment_method === "transfer" ? "Bank transfer (receipt)" : "Card"} />
               <Row l="Fee" v={r.amount_due ? formatNaira(r.amount_due) : null} />
               <Row l="Amount Paid" v={formatNaira(r.amount_paid)} />
               <Row l="Date Paid" v={r.paid_at ? new Date(r.paid_at).toLocaleString("en-NG") : null} />
@@ -147,6 +150,9 @@ function Detail() {
               ))}
             </Block>
           </div>
+        </div>
+        <div className="mt-6">
+          <ReceiptPanel r={r} />
         </div>
       </article>
     </div>

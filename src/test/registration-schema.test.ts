@@ -60,8 +60,15 @@ describe("registration rules", () => {
     expect(trainingSchema.safeParse({ ...training, training_mode: "Physical", training_location: "Warri" }).success).toBe(true);
   });
 
+  it("requires a receipt screenshot when paying by bank transfer", () => {
+    const base = { personal, category: nysc, training, photo, agreed_terms: true };
+    expect(submissionSchema.safeParse({ ...base, payment: { method: "transfer" } }).success).toBe(false);
+    expect(submissionSchema.safeParse({ ...base, payment: { method: "transfer", receipt: photo } }).success).toBe(true);
+    expect(submissionSchema.safeParse({ ...base }).success).toBe(false);
+  });
+
   it("blocks submission without agreeing to the terms or without a photo", () => {
-    const full = { personal, category: nysc, training, photo, agreed_terms: true };
+    const full = { personal, category: nysc, training, photo, payment: { method: "card" }, agreed_terms: true };
     expect(submissionSchema.safeParse(full).success).toBe(true);
     expect(submissionSchema.safeParse({ ...full, agreed_terms: false }).success).toBe(false);
     expect(submissionSchema.safeParse({ ...full, photo: { data: "", type: "image/jpeg" } }).success).toBe(false);

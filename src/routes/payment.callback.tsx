@@ -32,7 +32,7 @@ function CallbackPage() {
     retry: 1,
     staleTime: Infinity,
   });
-  const regRef = data?.registrationReference || txRef.split("-").slice(0, 3).join("-");
+  const regRef = data?.registrationReference || txRef.replace(/-P[A-Z0-9]+$/, "");
 
   return (
     <section className="bg-gradient-hero py-12 md:py-20">

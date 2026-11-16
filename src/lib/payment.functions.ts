@@ -4,7 +4,7 @@ import { z } from "zod";
 import { REG_REF, TX_REF } from "./money";
 
 const startSchema = z.object({
-  reference: z.string().trim().toUpperCase().regex(REG_REF, "Enter your reference number, e.g. MNL-2026-000123"),
+  reference: z.string().trim().toUpperCase().regex(REG_REF, "Enter your registration number, e.g. MNL-2026-000123"),
   email: z.string().trim().toLowerCase().email("Enter the email address you registered with").max(255),
 });
 
@@ -50,7 +50,7 @@ export const startPayment = createServerFn({ method: "POST" })
     }
     await supabaseAdmin.from("registrations").update({ amount_due: amount }).eq("id", reg.id);
 
-    const txRef = `${reg.reference}-${Date.now().toString(36).toUpperCase()}`;
+    const txRef = `${reg.reference}-P${Date.now().toString(36).toUpperCase()}`;
     let init: { authorization_url: string; reference: string };
     try {
       init = await paystack<{ authorization_url: string; reference: string }>("/transaction/initialize", {

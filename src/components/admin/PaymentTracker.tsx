@@ -107,6 +107,10 @@ export function PaymentTracker({ regs }: { regs: Registration[] }) {
                   <div className="min-w-[180px] flex-1">
                     <p className="font-semibold text-navy">{fullName(r)}</p>
                     <p className="font-mono text-xs text-muted-foreground">{r.reference}</p>
+                    <p className="text-[11px] font-semibold text-navy/70">
+                      {r.payment_method === "transfer" ? "Bank transfer" : "Card"}
+                      {r.receipt_path && r.payment_status !== "paid" && <span className="ml-1.5 rounded-full bg-warning/25 px-2 py-0.5 text-warning-foreground">Receipt to confirm</span>}
+                    </p>
                   </div>
                   <div className="w-28 text-sm">
                     <p className="text-xs text-muted-foreground">Fee</p>

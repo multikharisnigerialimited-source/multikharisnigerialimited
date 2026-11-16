@@ -21,5 +21,7 @@ export function unpricedCourses(courses: readonly string[], fees: FeeMap) {
   return courses.filter((c) => !fees[c]);
 }
 
-export const TX_REF = /^MNL-\d{4}-\d{6}-[A-Z0-9]{4,16}$/;
-export const REG_REF = /^MNL-\d{4}-\d{6}$/;
+/** Registration numbers: capitals, digits and dashes (admins can edit them). */
+export const REG_REF = /^[A-Z0-9][A-Z0-9-]{2,39}$/;
+/** Paystack transaction reference = registration number + "-" + random suffix. */
+export const TX_REF = /^[A-Z0-9][A-Z0-9-]{2,39}-P[A-Z0-9]{4,16}$/;

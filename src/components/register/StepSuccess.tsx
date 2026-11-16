@@ -4,7 +4,17 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { PayCard } from "@/components/payment/PayCard";
 
-export function StepSuccess({ reference, email, amountDue }: { reference: string; email: string; amountDue: number }) {
+export function StepSuccess({
+  reference,
+  email,
+  amountDue,
+  method,
+}: {
+  reference: string;
+  email: string;
+  amountDue: number;
+  method: "card" | "transfer";
+}) {
   return (
     <div className="flex flex-col items-center py-4 text-center">
       <div className="relative">
@@ -36,8 +46,15 @@ export function StepSuccess({ reference, email, amountDue }: { reference: string
       <p className="mt-4 max-w-sm text-xs text-muted-foreground">
         Please save this number. Confirmation will be sent to <strong className="text-navy">{email}</strong>.
       </p>
-      <PayCard reference={reference} email={email} amountDue={amountDue} className="mt-8" />
-      <Button asChild size="xl" variant={amountDue > 0 ? "subtle" : "default"} className="mt-6">
+      {method === "transfer" ? (
+        <div className="mt-8 w-full max-w-sm rounded-3xl bg-success/10 p-5 text-left">
+          <p className="text-sm font-bold text-success">Payment receipt received</p>
+          <p className="mt-1 text-sm text-muted-foreground">Our team will confirm your bank transfer and update your registration.</p>
+        </div>
+      ) : (
+        <PayCard reference={reference} email={email} amountDue={amountDue} className="mt-8" />
+      )}
+      <Button asChild size="xl" variant={method === "card" && amountDue > 0 ? "subtle" : "default"} className="mt-6">
         <Link to="/">
           <Home /> BACK TO HOME
         </Link>

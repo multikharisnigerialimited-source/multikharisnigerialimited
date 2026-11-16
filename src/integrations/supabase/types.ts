@@ -151,10 +151,13 @@ export type Database = {
           matric_number: string | null
           other_names: string | null
           paid_at: string | null
+          payment_method: string
           payment_status: Database["public"]["Enums"]["payment_status"]
           phone: string
           photo_path: string
           ppa: string | null
+          receipt_check: Json | null
+          receipt_path: string | null
           reference: string
           state_code: string | null
           status: Database["public"]["Enums"]["registration_status"]
@@ -185,10 +188,13 @@ export type Database = {
           matric_number?: string | null
           other_names?: string | null
           paid_at?: string | null
+          payment_method?: string
           payment_status?: Database["public"]["Enums"]["payment_status"]
           phone: string
           photo_path: string
           ppa?: string | null
+          receipt_check?: Json | null
+          receipt_path?: string | null
           reference?: string
           state_code?: string | null
           status?: Database["public"]["Enums"]["registration_status"]
@@ -219,10 +225,13 @@ export type Database = {
           matric_number?: string | null
           other_names?: string | null
           paid_at?: string | null
+          payment_method?: string
           payment_status?: Database["public"]["Enums"]["payment_status"]
           phone?: string
           photo_path?: string
           ppa?: string | null
+          receipt_check?: Json | null
+          receipt_path?: string | null
           reference?: string
           state_code?: string | null
           status?: Database["public"]["Enums"]["registration_status"]

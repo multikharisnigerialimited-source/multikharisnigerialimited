@@ -133,3 +133,38 @@ export async function saveCourseFees(fees: { course: string; amount: number }[])
   const { error } = await supabase.from("course_fees").upsert(fees, { onConflict: "course" });
   if (error) throw error;
 }
+
+export const receiptUrlQuery = (path: string | null) =>
+  queryOptions({
+    queryKey: ["receipt-url", path],
+    enabled: !!path,
+    staleTime: 50 * 60 * 1000,
+    queryFn: async () => {
+      const { data, error } = await supabase.storage.from("receipts").createSignedUrl(path!, 60 * 60);
+      if (error) throw error;
+      return data.signedUrl;
+    },
+  });
+
+/** Change a candidate's registration number. Returns a user-facing error message, or null on success. */
+export async function updateReference(id: string, reference: string): Promise<string | null> {
+  const ref = reference.trim().toUpperCase();
+  if (!/^[A-Z0-9][A-Z0-9-]{2,39}$/.test(ref)) return "Use capital letters, numbers and dashes only, e.g. MNL-2026-000123";
+  const { error } = await supabase.from("registrations").update({ reference: ref }).eq("id", id);
+  if (!error) return null;
+  if (error.code === "23505") return "That registration number is already used by another candidate.";
+  if (error.code === "23514") return "Use capital letters, numbers and dashes only, e.g. MNL-2026-000123";
+  return "Could not update the registration number.";
+}
+
+export type ReceiptCheckInfo = {
+  is_receipt?: boolean;
+  recipient_matches?: string;
+  amount_naira?: number | null;
+  recipient_name?: string | null;
+  recipient_account?: string | null;
+  bank?: string | null;
+  transaction_date?: string | null;
+  transaction_reference?: string | null;
+  reason?: string;
+};

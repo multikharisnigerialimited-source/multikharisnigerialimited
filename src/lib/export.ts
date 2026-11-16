@@ -27,6 +27,7 @@ const COLUMNS: [string, (r: Registration) => string][] = [
   ["Training Mode", (r) => r.training_mode],
   ["Training Schedule", (r) => r.training_schedule],
   ["Training Location", (r) => r.training_location ?? ""],
+  ["Payment Method", (r) => (r.payment_method === "transfer" ? "Bank transfer" : "Card")],
   ["Payment Status", (r) => (r.payment_status === "paid" ? "Paid" : "Unpaid")],
   ["Fee", (r) => (r.amount_due ? formatNaira(r.amount_due) : "")],
   ["Amount Paid", (r) => formatNaira(r.amount_paid)],

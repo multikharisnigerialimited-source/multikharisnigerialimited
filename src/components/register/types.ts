@@ -32,8 +32,20 @@ export type TrainingState = {
   training_location: string;
 };
 
+export type ReceiptState = {
+  data: string;
+  type: "image/jpeg";
+  preview: string;
+  name: string;
+  status: "checking" | "ok" | "rejected";
+  message: string;
+} | null;
+
+export type PaymentState = { method: "" | "card" | "transfer"; receipt: ReceiptState };
+
 export type FormState = {
   photo: PhotoState;
+  payment: PaymentState;
   personal: PersonalState;
   category: CategoryState;
   training: TrainingState;
@@ -42,6 +54,7 @@ export type FormState = {
 
 export const initialForm: FormState = {
   photo: null,
+  payment: { method: "", receipt: null },
   personal: {
     surname: "",
     first_name: "",
@@ -96,5 +109,13 @@ export type ErrorKey =
   | keyof TrainingState
   | "photo"
   | "agreed_terms"
+  | "payment"
+  | "receipt"
   | "_form";
 export type Errors = Partial<Record<ErrorKey, string>>;
+
+export function paymentPayload(p: PaymentState) {
+  if (p.method === "transfer" && p.receipt) return { method: "transfer" as const, receipt: { data: p.receipt.data, type: p.receipt.type } };
+  if (p.method === "card") return { method: "card" as const };
+  return { method: p.method };
+}

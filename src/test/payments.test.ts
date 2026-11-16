@@ -7,6 +7,13 @@ describe("payment rules", () => {
     expect(SITE.payout).toEqual({ accountName: "MULTIKHARIS", accountNumber: "2032300125", bank: "First Bank" });
   });
 
+  it("prices Computer Appreciation at ₦30,000 and other skills at ₦40,000, summed per course", () => {
+    const fees = { "Computer Appreciation (Microsoft Office)": 3_000_000, "Web Design": 4_000_000, "Data Analysis": 4_000_000 };
+    expect(totalFee(["Computer Appreciation (Microsoft Office)"], fees)).toBe(3_000_000);
+    expect(totalFee(["Web Design"], fees)).toBe(4_000_000);
+    expect(totalFee(["Computer Appreciation (Microsoft Office)", "Web Design", "Data Analysis"], fees)).toBe(11_000_000);
+  });
+
   it("charges the total of the fees for every selected course", () => {
     const fees = { "Web Design": 2_500_000, "Data Analysis": 3_000_000 };
     expect(totalFee(["Web Design", "Data Analysis"], fees)).toBe(5_500_000);
@@ -22,7 +29,8 @@ describe("payment rules", () => {
   });
 
   it("only accepts payment references tied to a registration number", () => {
-    expect(TX_REF.test("MNL-2026-000123-LZ8K2Q")).toBe(true);
-    expect(TX_REF.test("random-ref")).toBe(false);
+    expect(TX_REF.test("MNL-2026-000123-PLZ8K2Q")).toBe(true);
+    expect(TX_REF.test("random ref")).toBe(false);
+    expect(TX_REF.test("MNL-2026-000123")).toBe(false);
   });
 });

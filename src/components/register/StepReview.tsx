@@ -1,8 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { CreditCard } from "lucide-react";
 import { courseFeesQuery } from "@/lib/fees";
-import { formatNaira, totalFee } from "@/lib/money";
+import { totalFee } from "@/lib/money";
+import { PaymentChoice } from "./PaymentChoice";
 import { Pencil } from "lucide-react";
 import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
@@ -105,14 +105,7 @@ export function StepReview({
         </dl>
       </Section>
 
-      {fee > 0 && (
-        <div className="flex items-center justify-between gap-3 rounded-2xl border border-primary/30 bg-primary/5 p-4">
-          <span className="flex items-center gap-2 text-sm font-semibold text-navy">
-            <CreditCard className="h-5 w-5 text-primary" /> Training fee (pay by card after submitting)
-          </span>
-          <span className="font-display text-lg font-extrabold text-primary">{formatNaira(fee)}</span>
-        </div>
-      )}
+      <PaymentChoice form={form} setForm={setForm} errors={errors} fee={fee} />
 
       <label
         className={cn(

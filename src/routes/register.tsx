@@ -10,7 +10,7 @@ import { StepCategory } from "@/components/register/StepCategory";
 import { StepTraining } from "@/components/register/StepTraining";
 import { StepReview } from "@/components/register/StepReview";
 import { StepSuccess } from "@/components/register/StepSuccess";
-import { categoryPayload, initialForm, type Errors, type FormState } from "@/components/register/types";
+import { categoryPayload, initialForm, paymentPayload, type Errors, type FormState } from "@/components/register/types";
 import {
   categorySchema,
   fieldErrors,
@@ -137,6 +137,28 @@ function RegisterPage() {
         return;
       }
     }
+    const pay = form.payment;
+    if (!pay.method) {
+      setErrors({ payment: "Choose how you will pay: card or bank transfer" });
+      toast.error("Choose how you will pay.");
+      return;
+    }
+    if (pay.method === "transfer") {
+      if (!pay.receipt) {
+        setErrors({ receipt: "Upload a screenshot of your payment receipt" });
+        toast.error("Upload a screenshot of your payment receipt.");
+        return;
+      }
+      if (pay.receipt.status === "checking") {
+        toast.message("Please wait — we're still checking your receipt.");
+        return;
+      }
+      if (pay.receipt.status === "rejected") {
+        setErrors({ receipt: pay.receipt.message });
+        toast.error("Please upload a valid payment receipt.");
+        return;
+      }
+    }
     if (!form.agreed) {
       setErrors({ agreed_terms: "You must agree to the terms and conditions" });
       return;
@@ -146,6 +168,7 @@ function RegisterPage() {
       category: categoryPayload(form.category),
       training: form.training,
       photo: { data: form.photo!.data, type: form.photo!.type },
+      payment: paymentPayload(form.payment),
       agreed_terms: true as const,
     };
     const check = submissionSchema.safeParse(payload);
@@ -201,7 +224,12 @@ function RegisterPage() {
                 }}
               />
             )}
-            {step === 5 && reference && <StepSuccess reference={reference} email={form.personal.email} amountDue={amountDue} />}
+            {step === 5 && reference && <StepSuccess
+                reference={reference}
+                email={form.personal.email}
+                amountDue={amountDue}
+                method={form.payment.method === "transfer" ? "transfer" : "card"}
+              />}
           </div>
 
           {step < 5 && (
