@@ -23,5 +23,15 @@ export const sendContactMessage = createServerFn({ method: "POST" })
       console.error("contact insert failed", error);
       throw new Error("We couldn't send your message. Please try again.");
     }
+    const { postLeadAlert } = await import("./slack.server");
+    await postLeadAlert(
+      "✉️ New contact message",
+      [
+        ["Name", data.name],
+        ["Email", data.email],
+        ["Phone", data.phone || null],
+      ],
+      data.message,
+    );
     return { ok: true };
   });

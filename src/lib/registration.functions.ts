@@ -161,5 +161,26 @@ export const submitRegistration = createServerFn({ method: "POST" })
 
     // Confirmation + admin notification emails are sent here once an email domain is configured.
 
+    const { postLeadAlert } = await import("./slack.server");
+    const { formatNaira } = await import("./money");
+    const rc = receipt?.check as { amount_naira?: number | null; recipient_matches?: string } | undefined;
+    await postLeadAlert(`🎓 New registration ${row.reference}`, [
+      ["Name", [p.surname, p.first_name, p.other_names].filter(Boolean).join(" ")],
+      ["Category", c.category === "nysc" ? `NYSC Corps Member (${c.state_code.toUpperCase()})` : `Student (${c.level_of_study})`],
+      ["Institution", `${c.institution} — ${c.discipline}`],
+      ["Phone", normalizePhone(p.phone)],
+      ["WhatsApp", p.whatsapp ? normalizePhone(p.whatsapp) : null],
+      ["Email", p.email.toLowerCase()],
+      ["Courses", t.courses.join(", ")],
+      ["Training", `${t.training_mode}${t.training_mode === "Physical" && t.training_location ? ` (${t.training_location})` : ""} · ${t.training_schedule}`],
+      ["Fee", amountDue ? formatNaira(amountDue) : "Not set"],
+      [
+        "Payment",
+        data.payment.method === "transfer"
+          ? `Bank transfer — receipt uploaded${rc?.amount_naira != null ? `, shows ₦${rc.amount_naira.toLocaleString("en-NG")}` : ""} (confirm in admin)`
+          : "Card — pays after submitting",
+      ],
+    ]);
+
     return { reference: row.reference, amountDue };
   });
