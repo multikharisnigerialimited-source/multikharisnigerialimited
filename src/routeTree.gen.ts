@@ -15,6 +15,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as PayRouteImport } from './routes/pay'
+import { Route as RecommendRouteImport } from './routes/recommend'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as CoursesIndexRouteImport } from './routes/courses.index'
@@ -51,6 +52,11 @@ const ContactRoute = ContactRouteImport.update({
 const PayRoute = PayRouteImport.update({
   id: '/pay',
   path: '/pay',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecommendRoute = RecommendRouteImport.update({
+  id: '/recommend',
+  path: '/recommend',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RegisterRoute = RegisterRouteImport.update({
@@ -101,6 +107,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/pay': typeof PayRoute
+  '/recommend': typeof RecommendRoute
   '/register': typeof RegisterRoute
   '/terms': typeof TermsRoute
   '/courses/$slug': typeof CoursesSlugRoute
@@ -116,6 +123,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/pay': typeof PayRoute
+  '/recommend': typeof RecommendRoute
   '/register': typeof RegisterRoute
   '/terms': typeof TermsRoute
   '/courses/$slug': typeof CoursesSlugRoute
@@ -133,6 +141,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/pay': typeof PayRoute
+  '/recommend': typeof RecommendRoute
   '/register': typeof RegisterRoute
   '/terms': typeof TermsRoute
   '/courses/$slug': typeof CoursesSlugRoute
@@ -150,6 +159,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/pay'
+    | '/recommend'
     | '/register'
     | '/terms'
     | '/courses/$slug'
@@ -165,6 +175,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/pay'
+    | '/recommend'
     | '/register'
     | '/terms'
     | '/courses/$slug'
@@ -181,6 +192,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/pay'
+    | '/recommend'
     | '/register'
     | '/terms'
     | '/courses/$slug'
@@ -198,6 +210,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
   PayRoute: typeof PayRoute
+  RecommendRoute: typeof RecommendRoute
   RegisterRoute: typeof RegisterRoute
   TermsRoute: typeof TermsRoute
   CoursesSlugRoute: typeof CoursesSlugRoute
@@ -248,6 +261,13 @@ declare module '@tanstack/react-router' {
       path: '/pay'
       fullPath: '/pay'
       preLoaderRoute: typeof PayRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recommend': {
+      id: '/recommend'
+      path: '/recommend'
+      fullPath: '/recommend'
+      preLoaderRoute: typeof RecommendRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/register': {
@@ -329,6 +349,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
   PayRoute: PayRoute,
+  RecommendRoute: RecommendRoute,
   RegisterRoute: RegisterRoute,
   TermsRoute: TermsRoute,
   CoursesSlugRoute: CoursesSlugRoute,

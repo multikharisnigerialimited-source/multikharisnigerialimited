@@ -61,6 +61,9 @@ function Home() {
                 <Link to="/courses">Explore Courses</Link>
               </Button>
             </div>
+            <Link to="/recommend" className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-navy/80 hover:text-primary">
+              <Sparkles className="h-4 w-4 text-primary" /> Not sure where to start? Let AI suggest your course
+            </Link>
             <div className="mt-8 hidden items-center gap-6 sm:flex">
               {["Practical training", "Hands-on projects", "Certificate"].map((t) => (
                 <span key={t} className="flex items-center gap-1.5 text-sm font-medium text-navy/80">

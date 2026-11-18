@@ -1,5 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Search } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Search, Sparkles } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { CourseCard } from "@/components/site/CourseCard";
@@ -53,6 +53,12 @@ function CoursesPage() {
               aria-label="Search courses"
             />
           </div>
+          <Link
+            to="/recommend"
+            className="mt-5 inline-flex items-center gap-2 rounded-full bg-background px-4 py-2 text-sm font-semibold text-navy shadow-soft hover:text-primary"
+          >
+            <Sparkles className="h-4 w-4 text-primary" /> Not sure which to pick? Get AI course suggestions
+          </Link>
         </div>
       </section>
       <section className="py-12 md:py-16">

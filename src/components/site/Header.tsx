@@ -70,7 +70,7 @@ export function Header() {
             <Logo />
           </SheetHeader>
           <nav className="flex flex-col gap-1 px-4" aria-label="Mobile">
-            {[...NAV, { to: "/register", label: "Student Registration" } as const].map((n) => (
+            {[...NAV, { to: "/recommend", label: "Find My Course (AI)" } as const, { to: "/register", label: "Student Registration" } as const].map((n) => (
               <Link
                 key={n.to}
                 to={n.to}
