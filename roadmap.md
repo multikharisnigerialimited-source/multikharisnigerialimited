@@ -14,3 +14,5 @@
 - [ ] Registration: upload payment receipt screenshot before submitting (bank transfer) or pay by card (Mastercard)
 - [ ] Automatically check that the uploaded screenshot is really a payment receipt
 - [ ] Post each new lead (registration + contact message) to the owner's Slack channel as soon as it is submitted
+- [ ] Success screen: say confirmation emails aren't available yet; tell applicants to contact us with their reference number
+- [ ] AI course recommender: students describe interests/goals, get suggested courses with personal explanations

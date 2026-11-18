@@ -94,6 +94,15 @@ function RegisterPage() {
     });
   }, [form, step]);
 
+  // Clear payment errors once the applicant picks a method or uploads a receipt.
+  useEffect(() => {
+    setErrors((prev) => {
+      if (!prev.payment && !prev.receipt) return prev;
+      const { payment: _p, receipt: _r, ...rest } = prev;
+      return rest;
+    });
+  }, [form.payment.method, form.payment.receipt]);
+
   useEffect(() => {
     topRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, [step]);
@@ -248,7 +257,14 @@ function RegisterPage() {
               ) : (
                 <Button type="button" size="lg" onClick={onSubmit} disabled={submitting} className="px-5 sm:px-7">
                   {submitting ? <Loader2 className="animate-spin" /> : <Send />}
-                  {submitting ? "SUBMITTING…" : "SUBMIT REGISTRATION"}
+                  {submitting ? (
+                    "SUBMITTING…"
+                  ) : (
+                    <>
+                      <span className="sm:hidden">SUBMIT</span>
+                      <span className="hidden sm:inline">SUBMIT REGISTRATION</span>
+                    </>
+                  )}
                 </Button>
               )}
             </div>
