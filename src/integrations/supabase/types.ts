@@ -29,6 +29,24 @@ export type Database = {
         }
         Relationships: []
       }
+      app_settings: {
+        Row: {
+          key: string
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          value: string
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          value?: string
+        }
+        Relationships: []
+      }
       contact_messages: {
         Row: {
           created_at: string
@@ -141,6 +159,7 @@ export type Database = {
           courses: string[]
           created_at: string
           date_of_birth: string
+          denomination: string | null
           discipline: string
           email: string
           first_name: string
@@ -178,6 +197,7 @@ export type Database = {
           courses: string[]
           created_at?: string
           date_of_birth: string
+          denomination?: string | null
           discipline: string
           email: string
           first_name: string
@@ -215,6 +235,7 @@ export type Database = {
           courses?: string[]
           created_at?: string
           date_of_birth?: string
+          denomination?: string | null
           discipline?: string
           email?: string
           first_name?: string
@@ -277,10 +298,11 @@ export type Database = {
         }
         Returns: boolean
       }
+      next_registration_reference: { Args: never; Returns: string }
     }
     Enums: {
       app_role: "admin"
-      participant_category: "nysc" | "student"
+      participant_category: "nysc" | "student" | "minister"
       payment_status: "unpaid" | "paid"
       registration_status: "pending" | "approved" | "rejected"
     }
@@ -411,7 +433,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin"],
-      participant_category: ["nysc", "student"],
+      participant_category: ["nysc", "student", "minister"],
       payment_status: ["unpaid", "paid"],
       registration_status: ["pending", "approved", "rejected"],
     },
