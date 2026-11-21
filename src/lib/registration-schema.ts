@@ -87,8 +87,15 @@ const studentSchema = z.object({
   matric_number: req("Matriculation number", 40),
 });
 
-export const categorySchema = z.discriminatedUnion("category", [nyscSchema, studentSchema], {
-  errorMap: () => ({ message: "Select whether you are an NYSC Corps Member or a Student" }),
+const ministerSchema = z.object({
+  category: z.literal("minister"),
+  institution: req("Church/Ministry name", 150),
+  discipline: req("Position/Title", 120),
+  denomination: req("Denomination", 120),
+});
+
+export const categorySchema = z.discriminatedUnion("category", [nyscSchema, studentSchema, ministerSchema], {
+  errorMap: () => ({ message: "Select whether you are an NYSC Corps Member, a Student or a Church Minister" }),
 });
 
 export const trainingSchema = z

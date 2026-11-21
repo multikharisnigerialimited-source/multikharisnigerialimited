@@ -139,6 +139,7 @@ export const submitRegistration = createServerFn({ method: "POST" })
         ppa: c.category === "nysc" ? c.ppa : null,
         level_of_study: c.category === "student" ? c.level_of_study : null,
         matric_number: c.category === "student" ? c.matric_number : null,
+        denomination: c.category === "minister" ? c.denomination : null,
         courses: t.courses,
         training_mode: t.training_mode,
         training_schedule: t.training_schedule,
@@ -166,7 +167,7 @@ export const submitRegistration = createServerFn({ method: "POST" })
     const rc = receipt?.check as { amount_naira?: number | null; recipient_matches?: string } | undefined;
     await postLeadAlert(`🎓 New registration ${row.reference}`, [
       ["Name", [p.surname, p.first_name, p.other_names].filter(Boolean).join(" ")],
-      ["Category", c.category === "nysc" ? `NYSC Corps Member (${c.state_code.toUpperCase()})` : `Student (${c.level_of_study})`],
+      ["Category", c.category === "nysc" ? `NYSC Corps Member (${c.state_code.toUpperCase()})` : c.category === "minister" ? `Church Minister (${c.discipline}, ${c.denomination})` : `Student (${c.level_of_study})`],
       ["Institution", `${c.institution} — ${c.discipline}`],
       ["Phone", normalizePhone(p.phone)],
       ["WhatsApp", p.whatsapp ? normalizePhone(p.whatsapp) : null],

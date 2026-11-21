@@ -15,7 +15,8 @@ export type PersonalState = {
 };
 
 export type CategoryState = {
-  category: "" | "nysc" | "student";
+  category: "" | "nysc" | "student" | "minister";
+  denomination: string;
   institution: string;
   discipline: string;
   state_code: string;
@@ -75,6 +76,7 @@ export const initialForm: FormState = {
     ppa: "",
     level_of_study: "",
     matric_number: "",
+    denomination: "",
   },
   training: { courses: [], training_mode: "", training_schedule: "", training_location: "" },
   agreed: false,
@@ -98,6 +100,14 @@ export function categoryPayload(c: CategoryState) {
       discipline: c.discipline,
       level_of_study: c.level_of_study,
       matric_number: c.matric_number,
+    };
+  }
+  if (c.category === "minister") {
+    return {
+      category: "minister" as const,
+      institution: c.institution,
+      discipline: c.discipline,
+      denomination: c.denomination,
     };
   }
   return { category: c.category };

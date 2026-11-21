@@ -1,9 +1,9 @@
-// Server-only helpers for Paystack card payments. Needs the PAYSTACK_SECRET_KEY secret.
+// Server-only helpers for Paystack card payments, via the linked Paystack connection (gateway).
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
 import { totalFee } from "./money";
 
-const PAYSTACK_URL = "https://api.paystack.co";
+const PAYSTACK_URL = "https://connector-gateway.lovable.dev/paystack";
 
 type Admin = SupabaseClient<Database>;
 
@@ -14,12 +14,14 @@ export class PaymentsNotConfigured extends Error {
 }
 
 export async function paystack<T>(path: string, init?: { method?: "GET" | "POST"; body?: unknown }) {
-  const secretKey = process.env["PAYSTACK_SECRET_KEY"];
-  if (!secretKey) throw new PaymentsNotConfigured();
+  const lovableKey = process.env["LOVABLE_API_KEY"];
+  const connKey = process.env["PAYSTACK_CONNECTION_KEY"];
+  if (!lovableKey || !connKey) throw new PaymentsNotConfigured();
   const res = await fetch(`${PAYSTACK_URL}${path}`, {
     method: init?.method ?? "GET",
     headers: {
-      Authorization: `Bearer ${secretKey}`,
+      Authorization: `Bearer ${lovableKey}`,
+      "X-Connection-Api-Key": connKey,
       "Content-Type": "application/json",
       Accept: "application/json",
     },

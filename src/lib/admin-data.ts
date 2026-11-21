@@ -83,7 +83,7 @@ export async function updateStatus(id: string, status: RegistrationStatus) {
 export const fullName = (r: Pick<Registration, "surname" | "first_name" | "other_names">) =>
   [r.surname, r.first_name, r.other_names].filter(Boolean).join(" ");
 
-export const categoryLabel = (c: Registration["category"]) => (c === "nysc" ? "NYSC Corps Member" : "Student");
+export const categoryLabel = (c: Registration["category"]) => (c === "nysc" ? "NYSC Corps Member" : c === "minister" ? "Church Minister" : "Student");
 
 export type Payment = Database["public"]["Tables"]["payments"]["Row"] & {
   registrations: Pick<Registration, "reference" | "surname" | "first_name"> | null;

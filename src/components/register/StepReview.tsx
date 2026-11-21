@@ -72,10 +72,12 @@ export function StepReview({
 
       <Section title="Participant Category" onEdit={() => goTo(2)}>
         <dl>
-          <Row label="Category" value={c.category === "nysc" ? "NYSC Corps Member" : "Student"} />
-          <Row label="Institution" value={c.institution} />
-          <Row label="Course/Discipline" value={c.discipline} />
-          {c.category === "nysc" ? (
+          <Row label="Category" value={c.category === "nysc" ? "NYSC Corps Member" : c.category === "minister" ? "Church Minister" : "Student"} />
+          <Row label={c.category === "minister" ? "Church/Ministry" : "Institution"} value={c.institution} />
+          <Row label={c.category === "minister" ? "Position/Title" : "Course/Discipline"} value={c.discipline} />
+          {c.category === "minister" ? (
+            <Row label="Denomination" value={c.denomination} />
+          ) : c.category === "nysc" ? (
             <>
               <Row label="State Code" value={c.state_code} />
               <Row label="Call-up Number" value={c.callup_number} />

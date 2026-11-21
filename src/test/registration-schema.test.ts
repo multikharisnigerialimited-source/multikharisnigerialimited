@@ -74,3 +74,14 @@ describe("registration rules", () => {
     expect(submissionSchema.safeParse({ ...full, photo: { data: "", type: "image/jpeg" } }).success).toBe(false);
   });
 });
+
+describe("church minister category", () => {
+  it("accepts a minister with church, title and denomination", async () => {
+    const { categorySchema } = await import("@/lib/registration-schema");
+    expect(categorySchema.safeParse({ category: "minister", institution: "Grace Chapel Warri", discipline: "Pastor", denomination: "Pentecostal" }).success).toBe(true);
+  });
+  it("requires the denomination", async () => {
+    const { categorySchema } = await import("@/lib/registration-schema");
+    expect(categorySchema.safeParse({ category: "minister", institution: "Grace Chapel", discipline: "Pastor", denomination: "" }).success).toBe(false);
+  });
+});

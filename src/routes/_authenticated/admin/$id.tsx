@@ -111,9 +111,11 @@ function Detail() {
           <div className="space-y-6">
             <Block title="Participant Category">
               <Row l="Category" v={categoryLabel(r.category)} />
-              <Row l="Institution" v={r.institution} />
-              <Row l="Course/Discipline" v={r.discipline} />
-              {r.category === "nysc" ? (
+              <Row l={r.category === "minister" ? "Church/Ministry" : "Institution"} v={r.institution} />
+              <Row l={r.category === "minister" ? "Position/Title" : "Course/Discipline"} v={r.discipline} />
+              {r.category === "minister" ? (
+                <Row l="Denomination" v={r.denomination} />
+              ) : r.category === "nysc" ? (
                 <>
                   <Row l="State Code" v={r.state_code} />
                   <Row l="Call-up Number" v={r.callup_number} />

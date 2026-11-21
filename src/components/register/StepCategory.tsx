@@ -1,4 +1,4 @@
-import { BadgeCheck, GraduationCap } from "lucide-react";
+import { BadgeCheck, Church, GraduationCap } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { LEVELS } from "@/lib/registration-schema";
 import { Field, TextField } from "./Field";
@@ -21,6 +21,7 @@ export function StepCategory({
   const options = [
     { value: "nysc" as const, label: "NYSC Corps Member", icon: BadgeCheck },
     { value: "student" as const, label: "Student", icon: GraduationCap },
+    { value: "minister" as const, label: "Church Minister", icon: Church },
   ];
 
   return (
@@ -29,7 +30,7 @@ export function StepCategory({
         <p className="mb-3 font-display text-base font-bold text-navy">
           I AM A: <span className="text-primary">*</span>
         </p>
-        <div role="radiogroup" className="grid gap-3 sm:grid-cols-2">
+        <div role="radiogroup" className="grid gap-3 sm:grid-cols-3">
           {options.map(({ value, label, icon: Icon }) => {
             const sel = c.category === value;
             return (
@@ -67,6 +68,14 @@ export function StepCategory({
           <TextField id="state_code" label="State Code" required value={c.state_code} onChange={(v) => set("state_code", v.toUpperCase())} error={errors.state_code} placeholder="DT/24A/1234" hint="Format: DT/24A/1234" />
           <TextField id="callup_number" label="Call-up Number" required value={c.callup_number} onChange={(v) => set("callup_number", v.toUpperCase())} error={errors.callup_number} />
           <TextField id="ppa" label="Place of Primary Assignment (PPA)" required value={c.ppa} onChange={(v) => set("ppa", v)} error={errors.ppa} />
+        </div>
+      )}
+
+      {c.category === "minister" && (
+        <div className="grid animate-fade-up gap-4 sm:grid-cols-2">
+          <TextField id="institution" label="Church/Ministry Name" required value={c.institution} onChange={(v) => set("institution", v)} error={errors.institution} className="sm:col-span-2" />
+          <TextField id="discipline" label="Position/Title" required value={c.discipline} onChange={(v) => set("discipline", v)} error={errors.discipline} placeholder="e.g. Pastor, Evangelist, Deacon" />
+          <TextField id="denomination" label="Denomination" required value={c.denomination} onChange={(v) => set("denomination", v)} error={errors.denomination} />
         </div>
       )}
 

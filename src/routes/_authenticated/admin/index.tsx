@@ -1,6 +1,7 @@
+import { BatchSetting } from "@/components/admin/BatchSetting";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { BadgeCheck, Download, FileSpreadsheet, GraduationCap, Inbox, Loader2, Search, Users, Eye, Clock } from "lucide-react";
+import { BadgeCheck, Church, Download, FileSpreadsheet, GraduationCap, Inbox, Loader2, Search, Users, Eye, Clock } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { AdminShell } from "@/components/admin/AdminShell";
@@ -61,6 +62,7 @@ function Dashboard() {
       total: regs.length,
       nysc: regs.filter((r) => r.category === "nysc").length,
       students: regs.filter((r) => r.category === "student").length,
+      ministers: regs.filter((r) => r.category === "minister").length,
       pending: regs.filter((r) => r.status === "pending").length,
       byCourse: Object.entries(byCourse).sort((a, b) => b[1] - a[1]),
     };
@@ -80,12 +82,14 @@ function Dashboard() {
           <h1 className="text-2xl font-extrabold text-navy sm:text-3xl">Registrations</h1>
           <p className="text-sm text-muted-foreground">Overview of all applicants</p>
         </div>
+        <BatchSetting />
       </div>
 
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-5">
         <Stat icon={Users} label="Total Registrations" value={stats.total} accent />
         <Stat icon={BadgeCheck} label="NYSC Members" value={stats.nysc} />
         <Stat icon={GraduationCap} label="Students" value={stats.students} />
+        <Stat icon={Church} label="Church Ministers" value={stats.ministers} />
         <Stat icon={Clock} label="Pending Review" value={stats.pending} />
       </div>
 
@@ -103,7 +107,7 @@ function Dashboard() {
               <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search name, email, phone, reference…" className="h-11 rounded-xl pl-9" aria-label="Search applicants" />
             </div>
-            <Filter value={cat} onChange={setCat} label="Category" options={[["all", "All categories"], ["nysc", "NYSC Members"], ["student", "Students"]]} />
+            <Filter value={cat} onChange={setCat} label="Category" options={[["all", "All categories"], ["nysc", "NYSC Members"], ["student", "Students"], ["minister", "Church Ministers"]]} />
             <Filter value={course} onChange={setCourse} label="Course" options={[["all", "All courses"], ...SKILLS.map((s) => [s, s] as [string, string])]} />
             <Filter value={status} onChange={setStatus} label="Status" options={[["all", "All statuses"], ["pending", "Pending"], ["approved", "Approved"], ["rejected", "Rejected"]]} />
           </div>

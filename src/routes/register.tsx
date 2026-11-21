@@ -47,7 +47,7 @@ function validateStep(step: number, form: FormState): Errors {
     return r.success ? errs : { ...errs, ...(fieldErrors(r.error) as Errors) };
   }
   if (step === 2) {
-    if (!form.category.category) return { category: "Select whether you are an NYSC Corps Member or a Student" };
+    if (!form.category.category) return { category: "Select whether you are an NYSC Corps Member, a Student or a Church Minister" };
     const r = categorySchema.safeParse(categoryPayload(form.category));
     return r.success ? {} : (fieldErrors(r.error) as Errors);
   }
