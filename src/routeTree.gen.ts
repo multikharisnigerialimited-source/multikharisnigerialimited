@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as MinisterRegistrationRouteImport } from './routes/minister-registration'
 import { Route as PayRouteImport } from './routes/pay'
 import { Route as RecommendRouteImport } from './routes/recommend'
 import { Route as RegisterRouteImport } from './routes/register'
@@ -47,6 +48,11 @@ const AuthRoute = AuthRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MinisterRegistrationRoute = MinisterRegistrationRouteImport.update({
+  id: '/minister-registration',
+  path: '/minister-registration',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PayRoute = PayRouteImport.update({
@@ -106,6 +112,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
+  '/minister-registration': typeof MinisterRegistrationRoute
   '/pay': typeof PayRoute
   '/recommend': typeof RecommendRoute
   '/register': typeof RegisterRoute
@@ -122,6 +129,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
+  '/minister-registration': typeof MinisterRegistrationRoute
   '/pay': typeof PayRoute
   '/recommend': typeof RecommendRoute
   '/register': typeof RegisterRoute
@@ -140,6 +148,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
+  '/minister-registration': typeof MinisterRegistrationRoute
   '/pay': typeof PayRoute
   '/recommend': typeof RecommendRoute
   '/register': typeof RegisterRoute
@@ -158,6 +167,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/contact'
+    | '/minister-registration'
     | '/pay'
     | '/recommend'
     | '/register'
@@ -174,6 +184,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/contact'
+    | '/minister-registration'
     | '/pay'
     | '/recommend'
     | '/register'
@@ -191,6 +202,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/contact'
+    | '/minister-registration'
     | '/pay'
     | '/recommend'
     | '/register'
@@ -209,6 +221,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
+  MinisterRegistrationRoute: typeof MinisterRegistrationRoute
   PayRoute: typeof PayRoute
   RecommendRoute: typeof RecommendRoute
   RegisterRoute: typeof RegisterRoute
@@ -254,6 +267,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/minister-registration': {
+      id: '/minister-registration'
+      path: '/minister-registration'
+      fullPath: '/minister-registration'
+      preLoaderRoute: typeof MinisterRegistrationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pay': {
@@ -348,6 +368,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
+  MinisterRegistrationRoute: MinisterRegistrationRoute,
   PayRoute: PayRoute,
   RecommendRoute: RecommendRoute,
   RegisterRoute: RegisterRoute,

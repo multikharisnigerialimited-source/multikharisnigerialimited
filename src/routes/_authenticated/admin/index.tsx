@@ -62,7 +62,6 @@ function Dashboard() {
       total: regs.length,
       nysc: regs.filter((r) => r.category === "nysc").length,
       students: regs.filter((r) => r.category === "student").length,
-      ministers: regs.filter((r) => r.category === "minister").length,
       pending: regs.filter((r) => r.status === "pending").length,
       byCourse: Object.entries(byCourse).sort((a, b) => b[1] - a[1]),
     };
@@ -85,11 +84,10 @@ function Dashboard() {
         <BatchSetting />
       </div>
 
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-5">
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <Stat icon={Users} label="Total Registrations" value={stats.total} accent />
         <Stat icon={BadgeCheck} label="NYSC Members" value={stats.nysc} />
         <Stat icon={GraduationCap} label="Students" value={stats.students} />
-        <Stat icon={Church} label="Church Ministers" value={stats.ministers} />
         <Stat icon={Clock} label="Pending Review" value={stats.pending} />
       </div>
 
@@ -98,6 +96,7 @@ function Dashboard() {
           <TabsTrigger value="applicants" className="rounded-lg px-4">Applicants</TabsTrigger>
           <TabsTrigger value="payments" className="rounded-lg px-4">Payments</TabsTrigger>
           <TabsTrigger value="stats" className="rounded-lg px-4">Course Statistics</TabsTrigger>
+          <TabsTrigger value="ministers" className="rounded-lg px-4">Church Ministers</TabsTrigger>
           <TabsTrigger value="messages" className="rounded-lg px-4">Messages</TabsTrigger>
         </TabsList>
 
@@ -107,7 +106,7 @@ function Dashboard() {
               <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search name, email, phone, reference…" className="h-11 rounded-xl pl-9" aria-label="Search applicants" />
             </div>
-            <Filter value={cat} onChange={setCat} label="Category" options={[["all", "All categories"], ["nysc", "NYSC Members"], ["student", "Students"], ["minister", "Church Ministers"]]} />
+            <Filter value={cat} onChange={setCat} label="Category" options={[["all", "All categories"], ["nysc", "NYSC Members"], ["student", "Students"]]} />
             <Filter value={course} onChange={setCourse} label="Course" options={[["all", "All courses"], ...SKILLS.map((s) => [s, s] as [string, string])]} />
             <Filter value={status} onChange={setStatus} label="Status" options={[["all", "All statuses"], ["pending", "Pending"], ["approved", "Approved"], ["rejected", "Rejected"]]} />
           </div>

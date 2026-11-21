@@ -29,6 +29,13 @@
       "when": 1795249948055,
       "tag": "0003_batches_and_ministers",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1795251718819,
+      "tag": "0004_minister_registrations",
+      "breakpoints": true
     }
   ]
 }

@@ -92,6 +92,60 @@ export type Database = {
         }
         Relationships: []
       }
+      minister_registrations: {
+        Row: {
+          address: string
+          amount_due: number
+          amount_paid: number
+          church: string
+          created_at: string
+          gender: string
+          id: string
+          name: string
+          payment_status: Database["public"]["Enums"]["payment_status"]
+          phone: string
+          reference: string
+          status: Database["public"]["Enums"]["registration_status"]
+          title: string
+          updated_at: string
+          whatsapp: string | null
+        }
+        Insert: {
+          address: string
+          amount_due?: number
+          amount_paid?: number
+          church: string
+          created_at?: string
+          gender: string
+          id?: string
+          name: string
+          payment_status?: Database["public"]["Enums"]["payment_status"]
+          phone: string
+          reference?: string
+          status?: Database["public"]["Enums"]["registration_status"]
+          title: string
+          updated_at?: string
+          whatsapp?: string | null
+        }
+        Update: {
+          address?: string
+          amount_due?: number
+          amount_paid?: number
+          church?: string
+          created_at?: string
+          gender?: string
+          id?: string
+          name?: string
+          payment_status?: Database["public"]["Enums"]["payment_status"]
+          phone?: string
+          reference?: string
+          status?: Database["public"]["Enums"]["registration_status"]
+          title?: string
+          updated_at?: string
+          whatsapp?: string | null
+        }
+        Relationships: []
+      }
       payments: {
         Row: {
           amount: number
